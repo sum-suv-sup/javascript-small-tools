@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>
+    Image Preview
+    </title>
+  </head>
+  <body>
+    <div>
+      <input id="source" type="file" name="file" accept=".png,.jpg,.jpeg,.gif,.webp">
+    </div>
+    <div>
+      <img id="preview" src />
+    </div>
+    <script>
+    function onConverted () {
+      return function(v) {
+        document.getElementById('preview').src = v;
+      }
+    }
+    function toBase64 (file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+    function imageChange(e) {
+      const file = e.target.files[0];
+      if (!!file) {
+        toBase64(file).then(onConverted());
+      }
+    }
+    document.getElementById('source').addEventListener('change', imageChange, false);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <title>
+    Json Editor
+    </title>
+  </head>
+  <body>
+    <div>
+      <input id="source" type="file" name="file" accept=".json">
+    </div>
+    <div>
+      <textarea id="data" rows="12" cols="30"></textarea>
+    </div>
+    <div>
+      <button id="format" disabled>Format</button>
+    </div>
+    <div>
+      <button id="download" disabled>Download</button>
+    </div>
+    <script>
+    function setJsonData(data) {
+      try {
+        const json = JSON.parse(data);
+        if (!Object.keys(json).length) {
+          console.warn("No Data.");
+        } else {
+          document.getElementById('data').value = JSON.stringify(json, null, "\t");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    function fileChange(e) {
+      const file = e.target.files[0];
+      if (!!file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setJsonData(reader.result);
+          document.getElementById('format').disabled = false;
+          document.getElementById('download').disabled = false;
+        };
+        reader.readAsText(file);
+      }
+    }
+    function jsonFormat() {
+      var data = document.getElementById('data').value;
+      if (!!data && data.length > 0) {
+        setJsonData(data);
+      } else {
+        console.warn("No Data.");
+      }
+    }
+    function jsonDownload() {
+      let blob = new Blob(
+        [document.getElementById('data').value],
+        { "type": "text/plain" });
+      let aelem = document.createElement('a');
+      aelem.href = window.URL.createObjectURL(blob);
+      aelem.download = 'result.json'
+      aelem.click()
+    }
+    document.getElementById('source').addEventListener('change', fileChange, false);
+    document.getElementById('format').addEventListener('click', jsonFormat, false);
+    document.getElementById('download').addEventListener('click', jsonDownload, false);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <title>
+    Webp Converter
+    </title>
+  </head>
+  <body>
+    <div>
+      <input id="source" type="file" name="file" accept=".webp">
+    </div>
+    <div>
+      <canvas id="canvas"></canvas>
+    </div>
+    <div>
+      <button id="download" disabled>Download</button>
+    </div>
+    <script>
+    function onConverted() {
+      return function(v) {
+        let image = new Image();
+        image.onload = function () {
+          let canvas = document.getElementById('canvas');
+          canvas.width = this.naturalWidth;
+          canvas.height = this.naturalHeight;
+          canvas.getContext('2d').drawImage(this, 0, 0);
+          document.getElementById('download').disabled = false;
+        };
+        image.src = v;
+      }
+    }
+    function toBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+    function imageChange(e) {
+      const file = e.target.files[0];
+      if (!!file) {
+        toBase64(file).then(onConverted());
+      }
+    }
+    function imageDownload() {
+      let canvas = document.getElementById('canvas');
+      let aelem = document.createElement('a');
+      aelem.href = canvas.toDataURL('image/png');
+      aelem.download = "result.png";
+      aelem.click();
+    }
+    document.getElementById('source').addEventListener('change', imageChange, false);
+    document.getElementById('download').addEventListener('click', imageDownload, false);
+    </script>
+  </body>
+</html>
