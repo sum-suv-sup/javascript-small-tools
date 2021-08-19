@@ -8,3 +8,4 @@
 - image preview
 - json editor
 - webp converter
+- kana converter

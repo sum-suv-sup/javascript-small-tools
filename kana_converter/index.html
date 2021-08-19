@@ -1,0 +1,188 @@
+<html>
+  <head>
+    <title>
+    Kana Converter
+    </title>
+    <style>
+#list-container,
+#input-container {
+  width: 100vw;
+  margin: 30px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.list {
+  width: 40vw;
+  border-width: 1px;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #BBB;
+  background-color: #CCC;
+}
+.input {
+  display: inline-block;
+  width: 40vw;
+  border-width: 1px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: #BBB;
+  background-color: #EEE;
+}
+    </style>
+    <script>
+const dict = {
+               "_": {"a": "あ", "i": "い", "u": "う", "e": "え", "o": "お"},
+               "k": {"a": "か", "i": "き", "u": "く", "e": "け", "o": "こ"},
+               "s": {"a": "さ", "i": "し", "u": "す", "e": "せ", "o": "そ"},
+               "t": {"a": "た", "i": "ち", "u": "つ", "e": "て", "o": "と"},
+               "n": {"a": "な", "i": "に", "u": "ぬ", "e": "ね", "o": "の"},
+               "h": {"a": "は", "i": "ひ", "u": "ふ", "e": "へ", "o": "ほ"},
+               "m": {"a": "ま", "i": "み", "u": "む", "e": "め", "o": "も"},
+               "r": {"a": "ら", "i": "り", "u": "る", "e": "れ", "o": "ろ"},
+               "g": {"a": "が", "i": "ぎ", "u": "ぐ", "e": "げ", "o": "ご"},
+               "z": {"a": "ざ", "i": "じ", "u": "ず", "e": "ぜ", "o": "ぞ"},
+               "d": {"a": "だ", "i": "ぢ", "u": "づ", "e": "で", "o": "ど"},
+               "b": {"a": "ば", "i": "び", "u": "ぶ", "e": "べ", "o": "ぼ"},
+               "x": {"a": "ぁ", "i": "ぃ", "u": "ぅ", "e": "ぇ", "o": "ぉ"}
+             };
+var convert = function() {
+  var str = document.getElementById("input").value;
+  var counter = 0;
+  var result = str.split('').reduce((a, c) => {
+    counter++;
+    if (/[0-9]/.test(c)) {
+      if (c == '1') {
+        return a + '①';
+      } else if (c == '2') {
+        return a + '②';
+      } else if (c == '3') {
+        return a + '③';
+      } else if (c == '4') {
+        return a + '④';
+      } else if (c == '5') {
+        return a + '⑤';
+      } else if (c == '6') {
+        return a + '⑥';
+      } else if (c == '7') {
+        return a + '⑦';
+      } else if (c == '8') {
+        return a + '⑧';
+      } else if (c == '9') {
+        return a + '⑨';
+      } else if (c == '0' && a.length > 0 && a.substr(a.length - 1) == '①') {
+        return a.substr(0, a.length - 1) + '⑩';
+      } else {
+        return a + c;
+      }
+    } else if (/[a-z]/.test(c)) {
+      if (c == 'n' && (str.length == counter || !(/[aiueo]/.test(str.substr(counter, 1))))) {
+        return a + 'ん';
+      } else if (c == 'u' && a.length > 1 && (a.substr(a.length - 2)) == 'xt') {
+        return a.substr(0, a.length - 2) + 'っ';
+      } else if (/[auo]/.test(c) && a.length > 0 && (a.substr(a.length - 1)) == 'y') {
+        if (a.length > 1 && (a.substr(a.length - 2)) == 'xy') {
+          if (c == 'a') {
+            return a.substr(0, a.length - 2) + 'ゃ';
+          } else if (c == 'u') {
+            return a.substr(0, a.length - 2) + 'ゅ';
+          } else if (c == 'o') {
+            return a.substr(0, a.length - 2) + 'ょ';
+          }
+        } else {
+          if (c == 'a') {
+            return a.substr(0, a.length - 1) + 'や';
+          } else if (c == 'u') {
+            return a.substr(0, a.length - 1) + 'ゆ';
+          } else if (c == 'o') {
+            return a.substr(0, a.length - 1) + 'よ';
+          }
+        }
+      } else if (/[ao]/.test(c) && a.length > 0 && (a.substr(a.length - 1)) == 'w') {
+        if (c == 'a') {
+          return a.substr(0, a.length - 1) + 'わ';
+        } else if (c == 'o') {
+          return a.substr(0, a.length - 1) + 'を';
+        }
+      } else if (/[aiueo]/.test(c)) {
+        if (a.length > 0 && /[kstnhmrgzdbx]/.test(a.substr(a.length - 1))) {
+          return a.substr(0, a.length - 1) + dict[a.substr(a.length - 1)][c];
+        } else {
+          return a + dict["_"][c];
+        }
+      } else {
+        return a + c;
+      }
+    } else if (/[\-\.,]/.test(c)) {
+      if (c == ',') {
+        return a + '、';
+      } else if (c == '.') {
+        return a + '。';
+      } else if (c == '-') {
+        return a + 'ー';
+      } else {
+        return a + c;
+      }
+    } else {
+      return a + c;
+    }
+  },'');
+  document.getElementById("result").value = result;
+};
+    </script>
+  </head>
+  <body>
+    <div id="input-container">
+      <input id="input" class="input" type="text" onchange="convert();return false;">
+      <input id="result" class="input" type="text" readonly>
+    </div>
+    <div id="list-container">
+      <div class="list">
+        <pre>
+a i u e o
+ka ki ku ke ko
+sa si su se so
+ta ti tu te to
+na ni nu ne no
+ha hi hu he ho
+ma mi mu me mo
+ya yu yo
+ra ri ru re ro
+wa wo n
+ga gi gu ge go
+za zi zu ze zo
+da di du de do
+ba bi bu be bo
+xa xi xu xe xo
+xya xyu xyo xtu
+1 2 3 4 5
+6 7 8 9 10
+, . -
+        </pre>
+      </div>
+      <div class="list">
+        <pre>
+あいうえお
+かきくけこ
+さしすせそ
+たちつてと
+なにぬねの
+はひふへほ
+まみむめも
+やゆよ
+らりるれろ
+わをん
+がぎぐげご
+ざじずぜぞ
+だぢづでど
+ばびぶべぼ
+ぁぃぅぇぉ
+ゃゅょっ
+①②③④⑤
+⑥⑦⑧⑨⑩
+、。ー
+        </pre>
+      </div>
+    </div>
+  </body>
+</html>
