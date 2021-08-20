@@ -44,6 +44,9 @@ const dict = {
                "z": {"a": "ざ", "i": "じ", "u": "ず", "e": "ぜ", "o": "ぞ"},
                "d": {"a": "だ", "i": "ぢ", "u": "づ", "e": "で", "o": "ど"},
                "b": {"a": "ば", "i": "び", "u": "ぶ", "e": "べ", "o": "ぼ"},
+               "p": {"a": "ぱ", "i": "ぴ", "u": "ぷ", "e": "ぺ", "o": "ぽ"},
+               "v": {"a": "ゔぁ", "i": "ゔぃ", "u": "ゔ", "e": "ゔぇ", "o": "ゔぉ"},
+               "l": {"a": "ぁ", "i": "ぃ", "u": "ぅ", "e": "ぇ", "o": "ぉ"},
                "x": {"a": "ぁ", "i": "ぃ", "u": "ぅ", "e": "ぇ", "o": "ぉ"}
              };
 var convert = function() {
@@ -105,7 +108,7 @@ var convert = function() {
           return a.substr(0, a.length - 1) + 'を';
         }
       } else if (/[aiueo]/.test(c)) {
-        if (a.length > 0 && /[kstnhmrgzdbx]/.test(a.substr(a.length - 1))) {
+        if (a.length > 0 && /[kstnhmrgzdbpvlx]/.test(a.substr(a.length - 1))) {
           return a.substr(0, a.length - 1) + dict[a.substr(a.length - 1)][c];
         } else {
           return a + dict["_"][c];
@@ -153,6 +156,9 @@ ga gi gu ge go
 za zi zu ze zo
 da di du de do
 ba bi bu be bo
+pa pi pu pe po
+va vi vu ve vo
+la li lu le lo
 xa xi xu xe xo
 xya xyu xyo xtu
 1 2 3 4 5
@@ -176,6 +182,9 @@ xya xyu xyo xtu
 ざじずぜぞ
 だぢづでど
 ばびぶべぼ
+ぱぴぷぺぽ,
+ゔぁゔぃゔゔぇゔぉ
+ぁぃぅぇぉ
 ぁぃぅぇぉ
 ゃゅょっ
 ①②③④⑤
