@@ -46,8 +46,13 @@ const dict = {
                "b": {"a": "ば", "i": "び", "u": "ぶ", "e": "べ", "o": "ぼ"},
                "p": {"a": "ぱ", "i": "ぴ", "u": "ぷ", "e": "ぺ", "o": "ぽ"},
                "v": {"a": "ゔぁ", "i": "ゔぃ", "u": "ゔ", "e": "ゔぇ", "o": "ゔぉ"},
+               "j": {"a": "じゃ", "i": "じ", "u": "じゅ", "e": "じぇ", "o": "じょ"},
                "l": {"a": "ぁ", "i": "ぃ", "u": "ぅ", "e": "ぇ", "o": "ぉ"},
                "x": {"a": "ぁ", "i": "ぃ", "u": "ぅ", "e": "ぇ", "o": "ぉ"}
+             };
+const dict_h = {
+               "s": {"a": "しゃ", "i": "し", "u": "しゅ", "e": "しぇ", "o": "しょ"},
+               "c": {"a": "ちゃ", "i": "ち", "u": "ちゅ", "e": "ちぇ", "o": "ちょ"}
              };
 var convert = function() {
   var str = document.getElementById("input").value;
@@ -107,8 +112,10 @@ var convert = function() {
         } else if (c == 'o') {
           return a.substr(0, a.length - 1) + 'を';
         }
+      } else if (/[aiueo]/.test(c) && a.length > 1 && (a.substr(a.length - 1)) == 'h' && /[sc]/.test(a.substr(a.length - 2, 1))) {
+          return a.substr(0, a.length - 2) + dict_h[a.substr(a.length - 2, 1)][c];
       } else if (/[aiueo]/.test(c)) {
-        if (a.length > 0 && /[kstnhmrgzdbpvlx]/.test(a.substr(a.length - 1))) {
+        if (a.length > 0 && /[kstnhmrgzdbpvjlx]/.test(a.substr(a.length - 1))) {
           return a.substr(0, a.length - 1) + dict[a.substr(a.length - 1)][c];
         } else {
           return a + dict["_"][c];
@@ -158,6 +165,9 @@ da di du de do
 ba bi bu be bo
 pa pi pu pe po
 va vi vu ve vo
+ja ji ju je jo
+sha shi shu she sho
+cha chi chu che cho
 la li lu le lo
 xa xi xu xe xo
 xya xyu xyo xtu
@@ -184,6 +194,9 @@ xya xyu xyo xtu
 ばびぶべぼ
 ぱぴぷぺぽ,
 ゔぁゔぃゔゔぇゔぉ
+じゃじじゅじぇじょ
+しゃししゅしぇしょ
+ちゃちちゅちぇちょ
 ぁぃぅぇぉ
 ぁぃぅぇぉ
 ゃゅょっ
