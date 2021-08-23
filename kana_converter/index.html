@@ -54,6 +54,13 @@ const dict_h = {
                "s": {"a": "しゃ", "i": "し", "u": "しゅ", "e": "しぇ", "o": "しょ"},
                "c": {"a": "ちゃ", "i": "ち", "u": "ちゅ", "e": "ちぇ", "o": "ちょ"}
              };
+const dict_others = {
+               "y": {"a": "や", "u": "ゆ", "o": "よ"},
+               "xy": {"a": "ゃ", "u": "ゅ", "o": "ょ"},
+               "w": {"a": "わ", "o": "を"},
+               "xtu": "っ",
+               "n": "ん"
+             };
 var convert = function() {
   var str = document.getElementById("input").value;
   var counter = 0;
@@ -85,35 +92,19 @@ var convert = function() {
       }
     } else if (/[a-z]/.test(c)) {
       if (!(/[aiueo]/.test(c)) && str.length > counter && c == str.substr(counter, 1)) {
-        return a + 'っ';
+        return a + dict_others["xtu"];
       } else if (c == 'n' && (str.length == counter || !(/[aiueo]/.test(str.substr(counter, 1))))) {
-        return a + 'ん';
+        return a + dict_others["n"];
       } else if (c == 'u' && a.length > 1 && (a.substr(a.length - 2)) == 'xt') {
-        return a.substr(0, a.length - 2) + 'っ';
+        return a.substr(0, a.length - 2) + dict_others["xtu"];
       } else if (/[auo]/.test(c) && a.length > 0 && (a.substr(a.length - 1)) == 'y') {
         if (a.length > 1 && (a.substr(a.length - 2)) == 'xy') {
-          if (c == 'a') {
-            return a.substr(0, a.length - 2) + 'ゃ';
-          } else if (c == 'u') {
-            return a.substr(0, a.length - 2) + 'ゅ';
-          } else if (c == 'o') {
-            return a.substr(0, a.length - 2) + 'ょ';
-          }
+          return a.substr(0, a.length - 2) + dict_others["xy"][c];
         } else {
-          if (c == 'a') {
-            return a.substr(0, a.length - 1) + 'や';
-          } else if (c == 'u') {
-            return a.substr(0, a.length - 1) + 'ゆ';
-          } else if (c == 'o') {
-            return a.substr(0, a.length - 1) + 'よ';
-          }
+          return a.substr(0, a.length - 1) + dict_others["y"][c];
         }
       } else if (/[ao]/.test(c) && a.length > 0 && (a.substr(a.length - 1)) == 'w') {
-        if (c == 'a') {
-          return a.substr(0, a.length - 1) + 'わ';
-        } else if (c == 'o') {
-          return a.substr(0, a.length - 1) + 'を';
-        }
+        return a.substr(0, a.length - 1) + dict_others["w"][c];
       } else if (/[aiueo]/.test(c) && a.length > 1 && (a.substr(a.length - 1)) == 'h' && /[sc]/.test(a.substr(a.length - 2, 1))) {
           return a.substr(0, a.length - 2) + dict_h[a.substr(a.length - 2, 1)][c];
       } else if (/[aiueo]/.test(c)) {
