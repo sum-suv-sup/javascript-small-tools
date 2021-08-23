@@ -84,7 +84,9 @@ var convert = function() {
         return a + c;
       }
     } else if (/[a-z]/.test(c)) {
-      if (c == 'n' && (str.length == counter || !(/[aiueo]/.test(str.substr(counter, 1))))) {
+      if (!(/[aiueo]/.test(c)) && str.length > counter && c == str.substr(counter, 1)) {
+        return a + 'っ';
+      } else if (c == 'n' && (str.length == counter || !(/[aiueo]/.test(str.substr(counter, 1))))) {
         return a + 'ん';
       } else if (c == 'u' && a.length > 1 && (a.substr(a.length - 2)) == 'xt') {
         return a.substr(0, a.length - 2) + 'っ';
