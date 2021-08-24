@@ -32,37 +32,145 @@
     </style>
     <script>
 const dict = {
-               "_": {"a": "あ", "i": "い", "u": "う", "e": "え", "o": "お"},
-               "k": {"a": "か", "i": "き", "u": "く", "e": "け", "o": "こ"},
-               "s": {"a": "さ", "i": "し", "u": "す", "e": "せ", "o": "そ"},
-               "t": {"a": "た", "i": "ち", "u": "つ", "e": "て", "o": "と"},
-               "n": {"a": "な", "i": "に", "u": "ぬ", "e": "ね", "o": "の"},
-               "h": {"a": "は", "i": "ひ", "u": "ふ", "e": "へ", "o": "ほ"},
-               "m": {"a": "ま", "i": "み", "u": "む", "e": "め", "o": "も"},
-               "r": {"a": "ら", "i": "り", "u": "る", "e": "れ", "o": "ろ"},
-               "g": {"a": "が", "i": "ぎ", "u": "ぐ", "e": "げ", "o": "ご"},
-               "z": {"a": "ざ", "i": "じ", "u": "ず", "e": "ぜ", "o": "ぞ"},
-               "d": {"a": "だ", "i": "ぢ", "u": "づ", "e": "で", "o": "ど"},
-               "b": {"a": "ば", "i": "び", "u": "ぶ", "e": "べ", "o": "ぼ"},
-               "p": {"a": "ぱ", "i": "ぴ", "u": "ぷ", "e": "ぺ", "o": "ぽ"},
-               "v": {"a": "ゔぁ", "i": "ゔぃ", "u": "ゔ", "e": "ゔぇ", "o": "ゔぉ"},
-               "j": {"a": "じゃ", "i": "じ", "u": "じゅ", "e": "じぇ", "o": "じょ"},
-               "l": {"a": "ぁ", "i": "ぃ", "u": "ぅ", "e": "ぇ", "o": "ぉ"},
-               "x": {"a": "ぁ", "i": "ぃ", "u": "ぅ", "e": "ぇ", "o": "ぉ"}
+               "0": {
+                 "_": {"a": "あ", "i": "い", "u": "う", "e": "え", "o": "お"},
+                 "k": {"a": "か", "i": "き", "u": "く", "e": "け", "o": "こ"},
+                 "s": {"a": "さ", "i": "し", "u": "す", "e": "せ", "o": "そ"},
+                 "t": {"a": "た", "i": "ち", "u": "つ", "e": "て", "o": "と"},
+                 "n": {"a": "な", "i": "に", "u": "ぬ", "e": "ね", "o": "の"},
+                 "h": {"a": "は", "i": "ひ", "u": "ふ", "e": "へ", "o": "ほ"},
+                 "m": {"a": "ま", "i": "み", "u": "む", "e": "め", "o": "も"},
+                 "r": {"a": "ら", "i": "り", "u": "る", "e": "れ", "o": "ろ"},
+                 "g": {"a": "が", "i": "ぎ", "u": "ぐ", "e": "げ", "o": "ご"},
+                 "z": {"a": "ざ", "i": "じ", "u": "ず", "e": "ぜ", "o": "ぞ"},
+                 "d": {"a": "だ", "i": "ぢ", "u": "づ", "e": "で", "o": "ど"},
+                 "b": {"a": "ば", "i": "び", "u": "ぶ", "e": "べ", "o": "ぼ"},
+                 "p": {"a": "ぱ", "i": "ぴ", "u": "ぷ", "e": "ぺ", "o": "ぽ"},
+                 "v": {"a": "ゔぁ", "i": "ゔぃ", "u": "ゔ", "e": "ゔぇ", "o": "ゔぉ"},
+                 "j": {"a": "じゃ", "i": "じ", "u": "じゅ", "e": "じぇ", "o": "じょ"},
+                 "l": {"a": "ぁ", "i": "ぃ", "u": "ぅ", "e": "ぇ", "o": "ぉ"},
+                 "x": {"a": "ぁ", "i": "ぃ", "u": "ぅ", "e": "ぇ", "o": "ぉ"}
+               },
+               "1": {
+                 "_": {"a": "ア", "i": "イ", "u": "ウ", "e": "エ", "o": "オ"},
+                 "k": {"a": "カ", "i": "キ", "u": "ク", "e": "ケ", "o": "コ"},
+                 "s": {"a": "サ", "i": "シ", "u": "ス", "e": "セ", "o": "ソ"},
+                 "t": {"a": "タ", "i": "チ", "u": "ツ", "e": "テ", "o": "ト"},
+                 "n": {"a": "ナ", "i": "ニ", "u": "ヌ", "e": "ネ", "o": "ノ"},
+                 "h": {"a": "ハ", "i": "ヒ", "u": "フ", "e": "ヘ", "o": "ホ"},
+                 "m": {"a": "マ", "i": "ミ", "u": "ム", "e": "メ", "o": "モ"},
+                 "r": {"a": "ラ", "i": "リ", "u": "ル", "e": "レ", "o": "ロ"},
+                 "g": {"a": "ガ", "i": "ギ", "u": "グ", "e": "ゲ", "o": "ゴ"},
+                 "z": {"a": "ザ", "i": "ジ", "u": "ズ", "e": "ゼ", "o": "ゾ"},
+                 "d": {"a": "ダ", "i": "ヂ", "u": "ヅ", "e": "デ", "o": "ド"},
+                 "b": {"a": "バ", "i": "ビ", "u": "ブ", "e": "ベ", "o": "ボ"},
+                 "p": {"a": "パ", "i": "ピ", "u": "プ", "e": "ペ", "o": "ポ"},
+                 "v": {"a": "ヴァ", "i": "ヴィ", "u": "ヴ", "e": "ヴェ", "o": "ヴォ"},
+                 "j": {"a": "ジャ", "i": "ジ", "u": "ジュ", "e": "ジェ", "o": "ジョ"},
+                 "l": {"a": "ァ", "i": "ィ", "u": "ゥ", "e": "ェ", "o": "ォ"},
+                 "x": {"a": "ァ", "i": "ィ", "u": "ゥ", "e": "ェ", "o": "ォ"}
+               }
              };
 const dict_h = {
-               "s": {"a": "しゃ", "i": "し", "u": "しゅ", "e": "しぇ", "o": "しょ"},
-               "c": {"a": "ちゃ", "i": "ち", "u": "ちゅ", "e": "ちぇ", "o": "ちょ"}
+               "0": {
+                 "s": {"a": "しゃ", "i": "し", "u": "しゅ", "e": "しぇ", "o": "しょ"},
+                 "c": {"a": "ちゃ", "i": "ち", "u": "ちゅ", "e": "ちぇ", "o": "ちょ"}
+               },
+               "1": {
+                 "s": {"a": "シャ", "i": "シ", "u": "シュ", "e": "シェ", "o": "ショ"},
+                 "c": {"a": "チャ", "i": "チ", "u": "チュ", "e": "チェ", "o": "チョ"}
+               }
              };
 const dict_others = {
-               "y": {"a": "や", "u": "ゆ", "o": "よ"},
-               "xy": {"a": "ゃ", "u": "ゅ", "o": "ょ"},
-               "w": {"a": "わ", "o": "を"},
-               "xtu": "っ",
-               "n": "ん"
+               "0": {
+                 "y": {"a": "や", "u": "ゆ", "o": "よ"},
+                 "xy": {"a": "ゃ", "u": "ゅ", "o": "ょ"},
+                 "w": {"a": "わ", "o": "を"},
+                 "xtu": "っ",
+                 "n": "ん"
+               },
+               "1": {
+                 "y": {"a": "ヤ", "u": "ユ", "o": "ヨ"},
+                 "xy": {"a": "ャ", "u": "ュ", "o": "ョ"},
+                 "w": {"a": "ワ", "o": "ヲ"},
+                 "xtu": "ッ",
+                 "n": "ン"
+               }
              };
+const str_hiragana = `あいうえお
+かきくけこ
+さしすせそ
+たちつてと
+なにぬねの
+はひふへほ
+まみむめも
+やゆよ
+らりるれろ
+わをん
+がぎぐげご
+ざじずぜぞ
+だぢづでど
+ばびぶべぼ
+ぱぴぷぺぽ
+ゔぁゔぃゔゔぇゔぉ
+じゃじじゅじぇじょ
+しゃししゅしぇしょ
+ちゃちちゅちぇちょ
+ぁぃぅぇぉ
+ぁぃぅぇぉ
+ゃゅょっ
+①②③④⑤
+⑥⑦⑧⑨⑩
+、。ー
+`;
+const str_katakana = `アイウエオ
+カキクケコ
+サシスセソ
+タチツテト
+ナニヌネノ
+ハヒフヘホ
+マミムメモ
+ヤユヨ
+ラリルレロ
+ワヲン
+ガギグゲゴ
+ザジズゼゾ
+ダヂヅデド
+バビブベボ
+パピプペポ
+ヴァヴィヴヴェヴォ
+ジャジジュジェジョ
+シャシシュシェショ
+チャチチュチェチョ
+ァィゥェォ
+ァィゥェォ
+ャュョッ
+①②③④⑤
+⑥⑦⑧⑨⑩
+、。ー
+`;
+var kana_type = 0;
+window.onload = () => {
+  document.getElementById("kana").innerText = str_hiragana;
+  document.getElementsByName("kana_type").forEach(
+    v => v.addEventListener("change",
+      e => {
+        kana_type = e.target.value;
+        if (e.target.value == 0) {
+          document.getElementById("kana").innerText = str_hiragana;
+        } else {
+          document.getElementById("kana").innerText = str_katakana;
+        }
+        convert();
+      }
+    )
+  );
+}
 var convert = function() {
   var str = document.getElementById("input").value;
+  if (str == null || str.length < 1) {
+    return;
+  }
   var counter = 0;
   var result = str.split('').reduce((a, c) => {
     counter++;
@@ -92,26 +200,26 @@ var convert = function() {
       }
     } else if (/[a-z]/.test(c)) {
       if (!(/[aiueo]/.test(c)) && str.length > counter && c == str.substr(counter, 1)) {
-        return a + dict_others["xtu"];
+        return a + dict_others[kana_type]["xtu"];
       } else if (c == 'n' && (str.length == counter || !(/[aiueo]/.test(str.substr(counter, 1))))) {
-        return a + dict_others["n"];
+        return a + dict_others[kana_type]["n"];
       } else if (c == 'u' && a.length > 1 && (a.substr(a.length - 2)) == 'xt') {
-        return a.substr(0, a.length - 2) + dict_others["xtu"];
+        return a.substr(0, a.length - 2) + dict_others[kana_type]["xtu"];
       } else if (/[auo]/.test(c) && a.length > 0 && (a.substr(a.length - 1)) == 'y') {
         if (a.length > 1 && (a.substr(a.length - 2)) == 'xy') {
-          return a.substr(0, a.length - 2) + dict_others["xy"][c];
+          return a.substr(0, a.length - 2) + dict_others[kana_type]["xy"][c];
         } else {
-          return a.substr(0, a.length - 1) + dict_others["y"][c];
+          return a.substr(0, a.length - 1) + dict_others[kana_type]["y"][c];
         }
       } else if (/[ao]/.test(c) && a.length > 0 && (a.substr(a.length - 1)) == 'w') {
-        return a.substr(0, a.length - 1) + dict_others["w"][c];
+        return a.substr(0, a.length - 1) + dict_others[kana_type]["w"][c];
       } else if (/[aiueo]/.test(c) && a.length > 1 && (a.substr(a.length - 1)) == 'h' && /[sc]/.test(a.substr(a.length - 2, 1))) {
-          return a.substr(0, a.length - 2) + dict_h[a.substr(a.length - 2, 1)][c];
+          return a.substr(0, a.length - 2) + dict_h[kana_type][a.substr(a.length - 2, 1)][c];
       } else if (/[aiueo]/.test(c)) {
         if (a.length > 0 && /[kstnhmrgzdbpvjlx]/.test(a.substr(a.length - 1))) {
-          return a.substr(0, a.length - 1) + dict[a.substr(a.length - 1)][c];
+          return a.substr(0, a.length - 1) + dict[kana_type][a.substr(a.length - 1)][c];
         } else {
-          return a + dict["_"][c];
+          return a + dict[kana_type]["_"][c];
         }
       } else {
         return a + c;
@@ -170,34 +278,13 @@ xya xyu xyo xtu
         </pre>
       </div>
       <div class="list">
-        <pre>
-あいうえお
-かきくけこ
-さしすせそ
-たちつてと
-なにぬねの
-はひふへほ
-まみむめも
-やゆよ
-らりるれろ
-わをん
-がぎぐげご
-ざじずぜぞ
-だぢづでど
-ばびぶべぼ
-ぱぴぷぺぽ,
-ゔぁゔぃゔゔぇゔぉ
-じゃじじゅじぇじょ
-しゃししゅしぇしょ
-ちゃちちゅちぇちょ
-ぁぃぅぇぉ
-ぁぃぅぇぉ
-ゃゅょっ
-①②③④⑤
-⑥⑦⑧⑨⑩
-、。ー
+        <pre id="kana">
         </pre>
       </div>
+    </div>
+    <div>
+      <input type="radio" name="kana_type" value="0" checked>Hiragana
+      <input type="radio" name="kana_type" value="1">Katakana
     </div>
   </body>
 </html>
