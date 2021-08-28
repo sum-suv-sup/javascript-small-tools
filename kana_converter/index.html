@@ -31,6 +31,11 @@
 }
     </style>
     <script>
+// dictionary
+//   0: hiragana
+//   1: katakana
+//   2: number
+//   3: symbol
 const dict = {
                "0": {
                  "_": {"a": "あ", "i": "い", "u": "う", "e": "え", "o": "お"},
@@ -40,7 +45,9 @@ const dict = {
                  "n": {"a": "な", "i": "に", "u": "ぬ", "e": "ね", "o": "の"},
                  "h": {"a": "は", "i": "ひ", "u": "ふ", "e": "へ", "o": "ほ"},
                  "m": {"a": "ま", "i": "み", "u": "む", "e": "め", "o": "も"},
+                 "y": {"a": "や", "u": "ゆ", "o": "よ"},
                  "r": {"a": "ら", "i": "り", "u": "る", "e": "れ", "o": "ろ"},
+                 "w": {"a": "わ", "i": "うぃ", "e": "うぇ", "o": "を"},
                  "g": {"a": "が", "i": "ぎ", "u": "ぐ", "e": "げ", "o": "ご"},
                  "z": {"a": "ざ", "i": "じ", "u": "ず", "e": "ぜ", "o": "ぞ"},
                  "d": {"a": "だ", "i": "ぢ", "u": "づ", "e": "で", "o": "ど"},
@@ -48,8 +55,34 @@ const dict = {
                  "p": {"a": "ぱ", "i": "ぴ", "u": "ぷ", "e": "ぺ", "o": "ぽ"},
                  "v": {"a": "ゔぁ", "i": "ゔぃ", "u": "ゔ", "e": "ゔぇ", "o": "ゔぉ"},
                  "j": {"a": "じゃ", "i": "じ", "u": "じゅ", "e": "じぇ", "o": "じょ"},
+                 "f": {"a": "ふぁ", "i": "ふぃ", "u": "ふ", "e": "ふぇ", "o": "ふぉ"},
+                 "sh": {"a": "しゃ", "i": "し", "u": "しゅ", "e": "しぇ", "o": "しょ"},
+                 "ch": {"a": "ちゃ", "i": "ち", "u": "ちゅ", "e": "ちぇ", "o": "ちょ"},
+                 "dh": {"a": "でゃ", "i": "でぃ", "u": "でゅ", "e": "でぇ", "o": "でょ"},
+                 "th": {"a": "てゃ", "i": "てぃ", "u": "てゅ", "e": "てぇ", "o": "てょ"},
+                 "ky": {"a": "きゃ", "i": "きぃ", "u": "きゅ", "e": "きぇ", "o": "きょ"},
+                 "gy": {"a": "ぎゃ", "i": "ぎぃ", "u": "ぎゅ", "e": "ぎぇ", "o": "ぎょ"},
+                 "sy": {"a": "しゃ", "i": "しぃ", "u": "しゅ", "e": "しぇ", "o": "しょ"},
+                 "zy": {"a": "じゃ", "i": "じぃ", "u": "じゅ", "e": "じぇ", "o": "じょ"},
+                 "ty": {"a": "ちゃ", "i": "ちぃ", "u": "ちゅ", "e": "ちぇ", "o": "ちょ"},
+                 "dy": {"a": "ぢゃ", "i": "ぢぃ", "u": "ぢゅ", "e": "ぢぇ", "o": "ぢょ"},
+                 "ny": {"a": "にゃ", "i": "にぃ", "u": "にゅ", "e": "にぇ", "o": "にょ"},
+                 "hy": {"a": "ひゃ", "i": "ひぃ", "u": "ひゅ", "e": "ひぇ", "o": "ひょ"},
+                 "by": {"a": "びゃ", "i": "びぃ", "u": "びゅ", "e": "びぇ", "o": "びょ"},
+                 "py": {"a": "ぴゃ", "i": "ぴぃ", "u": "ぴゅ", "e": "ぴぇ", "o": "ぴょ"},
+                 "fy": {"a": "ふゃ", "i": "ふぃ", "u": "ふゅ", "e": "ふぇ", "o": "ふょ"},
+                 "my": {"a": "みゃ", "i": "みぃ", "u": "みゅ", "e": "みぇ", "o": "みょ"},
+                 "ry": {"a": "りゃ", "i": "りぃ", "u": "りゅ", "e": "りぇ", "o": "りょ"},
+                 "ts": {"a": "つぁ", "i": "つぃ", "u": "つ", "e": "つぇ", "o": "つぉ"},
                  "l": {"a": "ぁ", "i": "ぃ", "u": "ぅ", "e": "ぇ", "o": "ぉ"},
-                 "x": {"a": "ぁ", "i": "ぃ", "u": "ぅ", "e": "ぇ", "o": "ぉ"}
+                 "x": {"a": "ぁ", "i": "ぃ", "u": "ぅ", "e": "ぇ", "o": "ぉ"},
+                 "xy": {"a": "ゃ", "u": "ゅ", "o": "ょ"},
+                 "xtu": "っ",
+                 "kwa": "くぁ",
+                 "gwa": "ぐぁ",
+                 "twu": "とぅ",
+                 "dwu": "どぅ",
+                 "nn": "ん"
                },
                "1": {
                  "_": {"a": "ア", "i": "イ", "u": "ウ", "e": "エ", "o": "オ"},
@@ -59,7 +92,9 @@ const dict = {
                  "n": {"a": "ナ", "i": "ニ", "u": "ヌ", "e": "ネ", "o": "ノ"},
                  "h": {"a": "ハ", "i": "ヒ", "u": "フ", "e": "ヘ", "o": "ホ"},
                  "m": {"a": "マ", "i": "ミ", "u": "ム", "e": "メ", "o": "モ"},
+                 "y": {"a": "ヤ", "u": "ユ", "o": "ヨ"},
                  "r": {"a": "ラ", "i": "リ", "u": "ル", "e": "レ", "o": "ロ"},
+                 "w": {"a": "ワ", "i": "ウィ", "e": "ウェ", "o": "ヲ"},
                  "g": {"a": "ガ", "i": "ギ", "u": "グ", "e": "ゲ", "o": "ゴ"},
                  "z": {"a": "ザ", "i": "ジ", "u": "ズ", "e": "ゼ", "o": "ゾ"},
                  "d": {"a": "ダ", "i": "ヂ", "u": "ヅ", "e": "デ", "o": "ド"},
@@ -67,105 +102,103 @@ const dict = {
                  "p": {"a": "パ", "i": "ピ", "u": "プ", "e": "ペ", "o": "ポ"},
                  "v": {"a": "ヴァ", "i": "ヴィ", "u": "ヴ", "e": "ヴェ", "o": "ヴォ"},
                  "j": {"a": "ジャ", "i": "ジ", "u": "ジュ", "e": "ジェ", "o": "ジョ"},
+                 "f": {"a": "ファ", "i": "フィ", "u": "フ", "e": "フェ", "o": "フォ"},
+                 "sh": {"a": "シャ", "i": "シ", "u": "シュ", "e": "シェ", "o": "ショ"},
+                 "ch": {"a": "チャ", "i": "チ", "u": "チュ", "e": "チェ", "o": "チョ"},
+                 "dh": {"a": "デャ", "i": "ディ", "u": "デュ", "e": "デェ", "o": "デョ"},
+                 "th": {"a": "テャ", "i": "ティ", "u": "テュ", "e": "テェ", "o": "テョ"},
+                 "ky": {"a": "キャ", "i": "キィ", "u": "キュ", "e": "キェ", "o": "キョ"},
+                 "gy": {"a": "ギャ", "i": "ギィ", "u": "ギュ", "e": "ギェ", "o": "ギョ"},
+                 "sy": {"a": "シャ", "i": "シィ", "u": "シュ", "e": "シェ", "o": "ショ"},
+                 "zy": {"a": "ジャ", "i": "ジィ", "u": "ジュ", "e": "ジェ", "o": "ジョ"},
+                 "ty": {"a": "チャ", "i": "チィ", "u": "チュ", "e": "チェ", "o": "チョ"},
+                 "dy": {"a": "ヂャ", "i": "ヂィ", "u": "ヂュ", "e": "ヂェ", "o": "ヂョ"},
+                 "ny": {"a": "ニャ", "i": "ニィ", "u": "ニュ", "e": "ニェ", "o": "ニョ"},
+                 "hy": {"a": "ヒャ", "i": "ヒィ", "u": "ヒュ", "e": "ヒェ", "o": "ヒョ"},
+                 "by": {"a": "ビャ", "i": "ビィ", "u": "ビュ", "e": "ビェ", "o": "ビョ"},
+                 "py": {"a": "ピャ", "i": "ピィ", "u": "ピュ", "e": "ピェ", "o": "ピョ"},
+                 "fy": {"a": "フャ", "i": "フィ", "u": "フュ", "e": "フェ", "o": "フョ"},
+                 "my": {"a": "ミャ", "i": "ミィ", "u": "ミュ", "e": "ミェ", "o": "ミョ"},
+                 "ry": {"a": "リャ", "i": "リィ", "u": "リュ", "e": "リェ", "o": "リョ"},
+                 "ts": {"a": "ツァ", "i": "ツィ", "u": "ツ", "e": "ツェ", "o": "ツォ"},
                  "l": {"a": "ァ", "i": "ィ", "u": "ゥ", "e": "ェ", "o": "ォ"},
-                 "x": {"a": "ァ", "i": "ィ", "u": "ゥ", "e": "ェ", "o": "ォ"}
-               }
-             };
-const dict_h = {
-               "0": {
-                 "s": {"a": "しゃ", "i": "し", "u": "しゅ", "e": "しぇ", "o": "しょ"},
-                 "c": {"a": "ちゃ", "i": "ち", "u": "ちゅ", "e": "ちぇ", "o": "ちょ"}
-               },
-               "1": {
-                 "s": {"a": "シャ", "i": "シ", "u": "シュ", "e": "シェ", "o": "ショ"},
-                 "c": {"a": "チャ", "i": "チ", "u": "チュ", "e": "チェ", "o": "チョ"}
-               }
-             };
-const dict_others = {
-               "0": {
-                 "y": {"a": "や", "u": "ゆ", "o": "よ"},
-                 "xy": {"a": "ゃ", "u": "ゅ", "o": "ょ"},
-                 "w": {"a": "わ", "o": "を"},
-                 "xtu": "っ",
-                 "n": "ん"
-               },
-               "1": {
-                 "y": {"a": "ヤ", "u": "ユ", "o": "ヨ"},
+                 "x": {"a": "ァ", "i": "ィ", "u": "ゥ", "e": "ェ", "o": "ォ"},
                  "xy": {"a": "ャ", "u": "ュ", "o": "ョ"},
-                 "w": {"a": "ワ", "o": "ヲ"},
                  "xtu": "ッ",
-                 "n": "ン"
+                 "kwa": "クァ",
+                 "gwa": "グァ",
+                 "twu": "トゥ",
+                 "dwu": "ドゥ",
+                 "nn": "ン"
+               },
+               "2": {
+                 "1": "①",
+                 "2": "②",
+                 "3": "③",
+                 "4": "④",
+                 "5": "⑤",
+                 "6": "⑥",
+                 "7": "⑦",
+                 "8": "⑧",
+                 "9": "⑨",
+                 "10": "⑩"
+               },
+               "3": {
+                 ",": "、",
+                 ".": "。",
+                 "-": "ー"
                }
              };
-const str_hiragana = `あいうえお
-かきくけこ
-さしすせそ
-たちつてと
-なにぬねの
-はひふへほ
-まみむめも
-やゆよ
-らりるれろ
-わをん
-がぎぐげご
-ざじずぜぞ
-だぢづでど
-ばびぶべぼ
-ぱぴぷぺぽ
-ゔぁゔぃゔゔぇゔぉ
-じゃじじゅじぇじょ
-しゃししゅしぇしょ
-ちゃちちゅちぇちょ
-ぁぃぅぇぉ
-ぁぃぅぇぉ
-ゃゅょっ
-①②③④⑤
-⑥⑦⑧⑨⑩
-、。ー
-`;
-const str_katakana = `アイウエオ
-カキクケコ
-サシスセソ
-タチツテト
-ナニヌネノ
-ハヒフヘホ
-マミムメモ
-ヤユヨ
-ラリルレロ
-ワヲン
-ガギグゲゴ
-ザジズゼゾ
-ダヂヅデド
-バビブベボ
-パピプペポ
-ヴァヴィヴヴェヴォ
-ジャジジュジェジョ
-シャシシュシェショ
-チャチチュチェチョ
-ァィゥェォ
-ァィゥェォ
-ャュョッ
-①②③④⑤
-⑥⑦⑧⑨⑩
-、。ー
-`;
 var kana_type = 0;
 window.onload = () => {
-  document.getElementById("kana").innerText = str_hiragana;
+  document.getElementById("alpha").innerText = getKeys();
+  document.getElementById("kana").innerText = getText(kana_type);
   document.getElementsByName("kana_type").forEach(
     v => v.addEventListener("change",
       e => {
         kana_type = e.target.value;
-        if (e.target.value == 0) {
-          document.getElementById("kana").innerText = str_hiragana;
-        } else {
-          document.getElementById("kana").innerText = str_katakana;
-        }
+        document.getElementById("kana").innerText = getText(kana_type);
         convert();
       }
     )
   );
 }
+var getText = function(t) {
+  return Object.values(dict[t]).reduce((a, c) => {
+           if (typeof c == "string") {
+             return a + c + "\n";
+           } else {
+             return a + Object.values(c).join(' ') + "\n";
+           }
+         },'') +
+         Object.values(dict[2]).reduce((a, c) => {
+             return a + c + " ";
+         },'') + "\n" +
+         Object.values(dict[3]).reduce((a, c) => {
+             return a + c + " ";
+         },'');
+};
+var getKeys = function() {
+  return Object.keys(dict[0]).reduce((a, c) => {
+           if (typeof dict[0][c] == "string") {
+             return a + c + "\n";
+           } else {
+             return a + Object.keys(dict[0][c]).map(v => {
+               if (c == "_") {
+                 return v;
+               } else {
+                 return c + v;
+               }
+             }).join(' ') + "\n";
+           }
+         },'') +
+         Object.keys(dict[2]).reduce((a, c) => {
+             return a + c + " ";
+         },'') + "\n" +
+         Object.keys(dict[3]).reduce((a, c) => {
+             return a + c + " ";
+         },'');
+};
 var convert = function() {
   var str = document.getElementById("input").value;
   if (str == null || str.length < 1) {
@@ -175,65 +208,59 @@ var convert = function() {
   var result = str.split('').reduce((a, c) => {
     counter++;
     if (/[0-9]/.test(c)) {
-      if (c == '1') {
-        return a + '①';
-      } else if (c == '2') {
-        return a + '②';
-      } else if (c == '3') {
-        return a + '③';
-      } else if (c == '4') {
-        return a + '④';
-      } else if (c == '5') {
-        return a + '⑤';
-      } else if (c == '6') {
-        return a + '⑥';
-      } else if (c == '7') {
-        return a + '⑦';
-      } else if (c == '8') {
-        return a + '⑧';
-      } else if (c == '9') {
-        return a + '⑨';
-      } else if (c == '0' && a.length > 0 && a.substr(a.length - 1) == '①') {
-        return a.substr(0, a.length - 1) + '⑩';
-      } else {
+      if (c == '0' && a.length > 0 && a.substr(a.length - 1) == dict[2][1]) {
+        return a.substr(0, a.length - 1) + dict[2][10];
+      } else if (c == '0') {
         return a + c;
+      } else {
+        return a + dict[2][c];
       }
     } else if (/[a-z]/.test(c)) {
-      if (!(/[aiueo]/.test(c)) && str.length > counter && c == str.substr(counter, 1)) {
-        return a + dict_others[kana_type]["xtu"];
-      } else if (c == 'n' && (str.length == counter || !(/[aiueo]/.test(str.substr(counter, 1))))) {
-        return a + dict_others[kana_type]["n"];
-      } else if (c == 'u' && a.length > 1 && (a.substr(a.length - 2)) == 'xt') {
-        return a.substr(0, a.length - 2) + dict_others[kana_type]["xtu"];
-      } else if (/[auo]/.test(c) && a.length > 0 && (a.substr(a.length - 1)) == 'y') {
-        if (a.length > 1 && (a.substr(a.length - 2)) == 'xy') {
-          return a.substr(0, a.length - 2) + dict_others[kana_type]["xy"][c];
+      if (c == 'n' && (str.length == counter || !(/[aiueoy]/.test(str.substr(counter, 1))))) {
+        if (str.length > counter && str.substr(counter, 1) == 'n' && (str.length == counter + 1 || !(/[aiueo]/.test(str.substr(counter + 1, 1))))) {
+          return a;
         } else {
-          return a.substr(0, a.length - 1) + dict_others[kana_type]["y"][c];
+          return a + dict[kana_type]["nn"];
         }
-      } else if (/[ao]/.test(c) && a.length > 0 && (a.substr(a.length - 1)) == 'w') {
-        return a.substr(0, a.length - 1) + dict_others[kana_type]["w"][c];
-      } else if (/[aiueo]/.test(c) && a.length > 1 && (a.substr(a.length - 1)) == 'h' && /[sc]/.test(a.substr(a.length - 2, 1))) {
-          return a.substr(0, a.length - 2) + dict_h[kana_type][a.substr(a.length - 2, 1)][c];
+      } else if (!(/[aiueo]/.test(c)) && str.length > counter && c == str.substr(counter, 1)) {
+        return a + dict[kana_type]["xtu"];
+      } else if (c == 'u' && a.length > 1 && (a.substr(a.length - 2)) == 'xt') {
+        return a.substr(0, a.length - 2) + dict[kana_type]["xtu"];
       } else if (/[aiueo]/.test(c)) {
-        if (a.length > 0 && /[kstnhmrgzdbpvjlx]/.test(a.substr(a.length - 1))) {
-          return a.substr(0, a.length - 1) + dict[kana_type][a.substr(a.length - 1)][c];
+        if (a.length > 1 && (a.substr(a.length - 1)) == 'h' && /[scdt]/.test(a.substr(a.length - 2, 1))) {
+            return a.substr(0, a.length - 2) + dict[kana_type][a.substr(a.length - 2)][c];
+        } else if (a.length > 1 && (a.substr(a.length - 1)) == 'y' && /[kgsztdnhbpfmr]/.test(a.substr(a.length - 2, 1))) {
+            return a.substr(0, a.length - 2) + dict[kana_type][a.substr(a.length - 2)][c];
+        } else if (a.length > 1 && (a.substr(a.length - 2)) == 'ts') {
+            return a.substr(0, a.length - 2) + dict[kana_type][a.substr(a.length - 2)][c];
+        } else if (/[auo]/.test(c) && a.length > 0 && (a.substr(a.length - 1)) == 'y') {
+          if (a.length > 1 && (a.substr(a.length - 2)) == 'xy') {
+            return a.substr(0, a.length - 2) + dict[kana_type]["xy"][c];
+          } else {
+            return a.substr(0, a.length - 1) + dict[kana_type]["y"][c];
+          }
+        } else if (a.length > 1 && (a.substr(a.length - 2)) == 'kw' && c == 'a') {
+          return a.substr(0, a.length - 2) + dict[kana_type]["kwa"];
+        } else if (a.length > 1 && (a.substr(a.length - 2)) == 'gw' && c == 'a') {
+          return a.substr(0, a.length - 2) + dict[kana_type]["gwa"];
+        } else if (a.length > 1 && (a.substr(a.length - 2)) == 'tw' && c == 'u') {
+          return a.substr(0, a.length - 2) + dict[kana_type]["twu"];
+        } else if (a.length > 1 && (a.substr(a.length - 2)) == 'dw' && c == 'u') {
+          return a.substr(0, a.length - 2) + dict[kana_type]["dwu"];
+        } else if (/[aieo]/.test(c) && a.length > 0 && (a.substr(a.length - 1)) == 'w') {
+          return a.substr(0, a.length - 1) + dict[kana_type]["w"][c];
         } else {
-          return a + dict[kana_type]["_"][c];
+          if (a.length > 0 && /[kstnhmrgzdbpvjflx]/.test(a.substr(a.length - 1))) {
+            return a.substr(0, a.length - 1) + dict[kana_type][a.substr(a.length - 1)][c];
+          } else {
+            return a + dict[kana_type]["_"][c];
+          }
         }
       } else {
         return a + c;
       }
     } else if (/[\-\.,]/.test(c)) {
-      if (c == ',') {
-        return a + '、';
-      } else if (c == '.') {
-        return a + '。';
-      } else if (c == '-') {
-        return a + 'ー';
-      } else {
-        return a + c;
-      }
+      return a + dict[3][c];
     } else {
       return a + c;
     }
@@ -243,48 +270,23 @@ var convert = function() {
     </script>
   </head>
   <body>
+    <div>
+      <input type="radio" name="kana_type" value="0" checked>Hiragana
+      <input type="radio" name="kana_type" value="1">Katakana
+    </div>
     <div id="input-container">
       <input id="input" class="input" type="text" onchange="convert();return false;">
       <input id="result" class="input" type="text" readonly>
     </div>
     <div id="list-container">
       <div class="list">
-        <pre>
-a i u e o
-ka ki ku ke ko
-sa si su se so
-ta ti tu te to
-na ni nu ne no
-ha hi hu he ho
-ma mi mu me mo
-ya yu yo
-ra ri ru re ro
-wa wo n
-ga gi gu ge go
-za zi zu ze zo
-da di du de do
-ba bi bu be bo
-pa pi pu pe po
-va vi vu ve vo
-ja ji ju je jo
-sha shi shu she sho
-cha chi chu che cho
-la li lu le lo
-xa xi xu xe xo
-xya xyu xyo xtu
-1 2 3 4 5
-6 7 8 9 10
-, . -
+        <pre id="alpha">
         </pre>
       </div>
       <div class="list">
         <pre id="kana">
         </pre>
       </div>
-    </div>
-    <div>
-      <input type="radio" name="kana_type" value="0" checked>Hiragana
-      <input type="radio" name="kana_type" value="1">Katakana
     </div>
   </body>
 </html>
