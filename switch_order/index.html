@@ -1,0 +1,160 @@
+<html>
+  <head>
+    <title>
+    Switch Order
+    </title>
+    <style>
+.input,
+#item-grid,
+#item-list,
+#item-grid .item,
+#item-list .item {
+  width: 50vw;
+  border-width: 1px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: #BBB;
+  background-color: #EEE;
+}
+#item-grid {
+  display: flex;
+  overflow-y: scroll;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+#item-grid .item {
+  width: 40%;
+  height: 150px;
+  margin: 10px;
+  padding: 5px;
+  color: #333;
+  cursor: pointer;
+  background-color: #DDD;
+}
+#item-list .item {
+  width: calc(50vw - 40px);
+  margin: 10px auto;
+  padding: 5px;
+  color: #333;
+  cursor: pointer;
+  background-color: #DDD;
+}
+.input {
+  display: inline-block;
+  padding: 5px;
+}
+    </style>
+  </head>
+  <body>
+    <div>
+      <div>
+        <div id="item-list">
+          <div id="item-1" class="item" draggable="true" data-val="1">Item 1</div>
+          <div id="item-2" class="item" draggable="true" data-val="2">Item 2</div>
+          <div id="item-3" class="item" draggable="true" data-val="3">Item 3</div>
+          <div id="item-4" class="item" draggable="true" data-val="4">Item 4</div>
+          <div id="item-5" class="item" draggable="true" data-val="5">Item 5</div>
+          <div id="item-6" class="item" draggable="true" data-val="6">Item 6</div>
+          <div id="item-7" class="item" draggable="true" data-val="7">Item 7</div>
+          <div id="item-8" class="item" draggable="true" data-val="8">Item 8</div>
+          <div id="item-9" class="item" draggable="true" data-val="9">Item 9</div>
+          <div id="item-10" class="item" draggable="true" data-val="10">Item 10</div>
+        </div>
+        <input id="data1" class="input" type="text" readonly>
+      </div>
+      <p>&nbsp;</p>
+      <div>
+        <div id="item-grid">
+          <div id="item-11" class="item" draggable="true" data-val="11">Item 11</div>
+          <div id="item-12" class="item" draggable="true" data-val="12">Item 12</div>
+          <div id="item-13" class="item" draggable="true" data-val="13">Item 13</div>
+          <div id="item-14" class="item" draggable="true" data-val="14">Item 14</div>
+          <div id="item-15" class="item" draggable="true" data-val="15">Item 15</div>
+          <div id="item-16" class="item" draggable="true" data-val="16">Item 16</div>
+          <div id="item-17" class="item" draggable="true" data-val="17">Item 17</div>
+          <div id="item-18" class="item" draggable="true" data-val="18">Item 18</div>
+          <div id="item-19" class="item" draggable="true" data-val="19">Item 19</div>
+          <div id="item-20" class="item" draggable="true" data-val="20">Item 20</div>
+        </div>
+        <input id="data2" class="input" type="text" readonly>
+      </div>
+    </div>
+    <script>
+var switchSourceId = "";
+var switchTargetId = "";
+var handleDragStart = function(e) {
+  console.log("handleDragStart");
+  switchSourceId = e.target.id;
+  return false;
+};
+var handleDragEnter = function(e) {
+  console.log("handleDragEnter");
+  switchTargetId = e.target.id;
+  return false;
+};
+var handleDragOver = function(e) {
+  console.log("handleDragOver");
+  return false;
+};
+var handleDragLeave = function(e) {
+  console.log("handleDragLeave");
+  return false;
+};
+var handleDragEnd = function(e) {
+  console.log("handleDragEnd");
+  console.log("switchSourceId: " + switchSourceId);
+  console.log("switchTargetId: " + switchTargetId);
+  if (switchSourceId != "" && switchSourceId != switchTargetId) {
+    switchItem(switchSourceId, switchTargetId);
+  }
+  switchSourceId = "";
+  switchTargetId = "";
+  return false;
+};
+var switchItem = function(sid, tid) {
+  var tmpData = document.getElementById(sid).getAttribute("data-val");
+  var tmpText = document.getElementById(sid).innerText;
+  document.getElementById(sid).setAttribute("data-val", document.getElementById(tid).getAttribute("data-val"));
+  document.getElementById(sid).innerText = document.getElementById(tid).innerText;
+  document.getElementById(tid).setAttribute("data-val", tmpData);
+  document.getElementById(tid).innerText = tmpText;
+  document.getElementById(sid).id = "item-0";
+  document.getElementById(tid).id = sid;
+  document.getElementById("item-0").id = tid;
+  var data1 = Array.from(document.querySelectorAll('#item-list .item')).reduce((a, c) => {
+    a.push(parseInt(c.getAttribute("data-val"), 10));
+    return a;
+  }, []);
+  var data2 = Array.from(document.querySelectorAll('#item-grid .item')).reduce((a, c) => {
+    a.push(parseInt(c.getAttribute("data-val"), 10));
+    return a;
+  }, []);
+  document.getElementById('data1').value = JSON.stringify(data1);
+  document.getElementById('data2').value = JSON.stringify(data2);
+}
+window.onload = () => {
+  var data1 = Array.from(document.querySelectorAll('#item-list .item')).reduce((a, c) => {
+    c.addEventListener('dragstart', handleDragStart, false);
+    c.addEventListener('dragenter', handleDragEnter, false);
+    c.addEventListener('dragover', handleDragOver, false);
+    c.addEventListener('dragleave', handleDragLeave, false);
+    c.addEventListener('dragend', handleDragEnd, false);
+    a.push(parseInt(c.getAttribute("data-val"), 10));
+    return a;
+  }, []);
+  var data2 = Array.from(document.querySelectorAll('#item-grid .item')).reduce((a, c) => {
+    c.addEventListener('dragstart', handleDragStart, false);
+    c.addEventListener('dragenter', handleDragEnter, false);
+    c.addEventListener('dragover', handleDragOver, false);
+    c.addEventListener('dragleave', handleDragLeave, false);
+    c.addEventListener('dragend', handleDragEnd, false);
+    a.push(parseInt(c.getAttribute("data-val"), 10));
+    return a;
+  }, []);
+  document.getElementById('data1').value = JSON.stringify(data1);
+  document.getElementById('data2').value = JSON.stringify(data2);
+}
+    </script>
+  </body>
+</html>

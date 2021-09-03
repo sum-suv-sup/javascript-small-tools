@@ -9,3 +9,6 @@
 - json editor
 - webp converter
 - kana converter
+- switch order
+- audio player
+- video player

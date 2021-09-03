@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>
+    Audio Player
+    </title>
+  </head>
+  <body>
+    <div>
+      <audio id="audio" controls autoplay>
+        <source src>
+      </audio>
+    </div>
+    <input id="source" type="file" name="file" accept=".mp3">
+    <script>
+    function audioChange(e) {
+      const file = e.target.files[0];
+      if (!!file) {
+        document.getElementById('audio').src = "./data/" + file.name;
+      }
+    }
+    document.getElementById('source').addEventListener('change', audioChange, false);
+    </script>
+  </body>
+</html>
