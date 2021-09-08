@@ -199,13 +199,9 @@ var getKeys = function() {
              return a + c + " ";
          },'');
 };
-var convert = function() {
-  var str = document.getElementById("input").value;
-  if (str == null || str.length < 1) {
-    return;
-  }
+var convertMain = function(str, ktype) {
   var counter = 0;
-  var result = str.split('').reduce((a, c) => {
+  return str.split('').reduce((a, c) => {
     counter++;
     if (/[0-9]/.test(c)) {
       if (c == '0' && a.length > 0 && a.substr(a.length - 1) == dict[2][1]) {
@@ -220,40 +216,40 @@ var convert = function() {
         if (str.length > counter && str.substr(counter, 1) == 'n' && (str.length == counter + 1 || !(/[aiueo]/.test(str.substr(counter + 1, 1))))) {
           return a;
         } else {
-          return a + dict[kana_type]["nn"];
+          return a + dict[ktype]["nn"];
         }
       } else if (!(/[aiueo]/.test(c)) && str.length > counter && c == str.substr(counter, 1)) {
-        return a + dict[kana_type]["xtu"];
+        return a + dict[ktype]["xtu"];
       } else if (c == 'u' && a.length > 1 && (a.substr(a.length - 2)) == 'xt') {
-        return a.substr(0, a.length - 2) + dict[kana_type]["xtu"];
+        return a.substr(0, a.length - 2) + dict[ktype]["xtu"];
       } else if (/[aiueo]/.test(c)) {
         if (a.length > 1 && (a.substr(a.length - 1)) == 'h' && /[scdt]/.test(a.substr(a.length - 2, 1))) {
-            return a.substr(0, a.length - 2) + dict[kana_type][a.substr(a.length - 2)][c];
+            return a.substr(0, a.length - 2) + dict[ktype][a.substr(a.length - 2)][c];
         } else if (a.length > 1 && (a.substr(a.length - 1)) == 'y' && /[kgsztdnhbpfmr]/.test(a.substr(a.length - 2, 1))) {
-            return a.substr(0, a.length - 2) + dict[kana_type][a.substr(a.length - 2)][c];
+            return a.substr(0, a.length - 2) + dict[ktype][a.substr(a.length - 2)][c];
         } else if (a.length > 1 && (a.substr(a.length - 2)) == 'ts') {
-            return a.substr(0, a.length - 2) + dict[kana_type][a.substr(a.length - 2)][c];
+            return a.substr(0, a.length - 2) + dict[ktype][a.substr(a.length - 2)][c];
         } else if (/[auo]/.test(c) && a.length > 0 && (a.substr(a.length - 1)) == 'y') {
           if (a.length > 1 && (a.substr(a.length - 2)) == 'xy') {
-            return a.substr(0, a.length - 2) + dict[kana_type]["xy"][c];
+            return a.substr(0, a.length - 2) + dict[ktype]["xy"][c];
           } else {
-            return a.substr(0, a.length - 1) + dict[kana_type]["y"][c];
+            return a.substr(0, a.length - 1) + dict[ktype]["y"][c];
           }
         } else if (a.length > 1 && (a.substr(a.length - 2)) == 'kw' && c == 'a') {
-          return a.substr(0, a.length - 2) + dict[kana_type]["kwa"];
+          return a.substr(0, a.length - 2) + dict[ktype]["kwa"];
         } else if (a.length > 1 && (a.substr(a.length - 2)) == 'gw' && c == 'a') {
-          return a.substr(0, a.length - 2) + dict[kana_type]["gwa"];
+          return a.substr(0, a.length - 2) + dict[ktype]["gwa"];
         } else if (a.length > 1 && (a.substr(a.length - 2)) == 'tw' && c == 'u') {
-          return a.substr(0, a.length - 2) + dict[kana_type]["twu"];
+          return a.substr(0, a.length - 2) + dict[ktype]["twu"];
         } else if (a.length > 1 && (a.substr(a.length - 2)) == 'dw' && c == 'u') {
-          return a.substr(0, a.length - 2) + dict[kana_type]["dwu"];
+          return a.substr(0, a.length - 2) + dict[ktype]["dwu"];
         } else if (/[aieo]/.test(c) && a.length > 0 && (a.substr(a.length - 1)) == 'w') {
-          return a.substr(0, a.length - 1) + dict[kana_type]["w"][c];
+          return a.substr(0, a.length - 1) + dict[ktype]["w"][c];
         } else {
           if (a.length > 0 && /[kstnhmrgzdbpvjflx]/.test(a.substr(a.length - 1))) {
-            return a.substr(0, a.length - 1) + dict[kana_type][a.substr(a.length - 1)][c];
+            return a.substr(0, a.length - 1) + dict[ktype][a.substr(a.length - 1)][c];
           } else {
-            return a + dict[kana_type]["_"][c];
+            return a + dict[ktype]["_"][c];
           }
         }
       } else {
@@ -265,7 +261,32 @@ var convert = function() {
       return a + c;
     }
   },'');
-  document.getElementById("result").value = result;
+};
+var convert = function() {
+  var str = document.getElementById("input").value;
+  if (str == null || str.length < 1) {
+    return;
+  }
+  document.getElementById("result").value = convertMain(str, kana_type);
+};
+var test = function() {
+  return !(Object.keys(dict).some(k => {
+    return Object.keys(dict[k]).some(l => {
+      if (typeof dict[k][l] == "string") {
+        console.log(dict[k][l]);
+        return dict[k][l] != convertMain(l, k);
+      } else {
+        return Object.keys(dict[k][l]).some(m => {
+          console.log(dict[k][l][m]);
+          if (l == '_') {
+            return dict[k][l][m] != convertMain(m, k);
+          } else {
+            return dict[k][l][m] != convertMain(l + m, k);
+          }
+        });
+      }
+    });
+  }));
 };
     </script>
   </head>
