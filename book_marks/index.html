@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>Bookmarks</title>
+    <style>
+body {
+  background-image: url("./img/sample.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 99%;
+  height: 99%;
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+ul {
+  list-style: none;
+}
+li > a:visited,
+li > a {
+  color: #333;
+  text-shadow: 2px 1px #CCC;
+}
+li > a:hover {
+  color: #559;
+  text-shadow: 2px 1px #DDD;
+}
+li:nth-of-type(3n) {
+  margin-bottom: 20px;
+}
+    </style>
+    <script>
+const dict = {
+               "left": {
+                 "https://github.com/": "github.com",
+                 "https://github.com/irase-ikonu": "irase-ikonu"
+               },
+               "right": {
+                 "https://github.com/irase-ikonu/javascript-small-tools/tree/master/audio_player": "audio_player",
+                 "https://github.com/irase-ikonu/javascript-small-tools/tree/master/book_marks": "book_marks",
+                 "https://github.com/irase-ikonu/javascript-small-tools/tree/master/image_preview": "image_preview",
+                 "https://github.com/irase-ikonu/javascript-small-tools/tree/master/json_editor": "json_editor",
+                 "https://github.com/irase-ikonu/javascript-small-tools/tree/master/kana_converter": "kana_converter",
+                 "https://github.com/irase-ikonu/javascript-small-tools/tree/master/switch_order": "switch_order",
+                 "https://github.com/irase-ikonu/javascript-small-tools/tree/master/video_player": "video_player",
+                 "https://github.com/irase-ikonu/javascript-small-tools/tree/master/webp_converter": "webp_converter"
+               }
+             };
+window.onload = () => {
+  Object.values(dict).reduce((a, ary) => {
+    var div = document.createElement("div");
+    var ul = document.createElement("ul");
+    Object.keys(ary).reduce((a_, url) => {
+      var li = document.createElement("li");
+      var atag = document.createElement("a");
+      atag.setAttribute("href", url);
+      atag.setAttribute("target", "_brank");
+      atag.innerText = ary[url];
+      li.append(atag);
+      ul.append(li);
+    },'');
+    div.append(ul);
+    document.body.append(div);
+  },'');
+}
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
