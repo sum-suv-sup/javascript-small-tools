@@ -332,13 +332,16 @@ body {
     }
   };
   var hideOrShowController = function() {
+    var messageElm = document.getElementById("message");
     var hideButton = document.getElementById("hide-button");
     var formContainer = document.getElementById("form-container");
     if (formContainer.style.display.toString() !== 'none') {
       hideButton.style.transform = 'rotate(180deg)';
+      messageElm.style.maxHeight = 'calc(100vh - 55vw - 50px)';
       formContainer.style.display = 'none';
     } else {
       hideButton.style.transform = 'rotate(0deg)';
+      messageElm.style.maxHeight = 'calc(100vh - 55vw - 110px)';
       formContainer.style.display = 'flex';
     }
   };
