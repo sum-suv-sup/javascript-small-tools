@@ -39,8 +39,15 @@ body {
   margin: 0 0 0 30px;
   width: calc(100% - 30px);
 }
+#message-container {
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 #message {
   max-height: calc(100vh - 55vw - 110px);
+  width: calc(100% - 70px);
   overflow-y: scroll;
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
@@ -62,14 +69,29 @@ body {
   height: 90px;
   cursor: pointer;
 }
-#url-button {
+#hide-button {
   cursor: pointer;
-  padding: 5px 15px;
+  padding: 0 11px 0 15px;
   border: solid;
   border-radius: 3px;
   border-color: #999;
   border-width: thin;
   background-color: #DDD;
+  font-size: 1.2em;
+  transform: rotate(0deg);
+}
+#play-button,
+#repeat-button {
+  margin: 0 0.6em;
+  cursor: pointer;
+  padding: 3px 20px 0;
+  border: solid;
+  border-radius: 3px;
+  border-color: #999;
+  border-width: thin;
+  background-color: #DDD;
+  font-size: 1.3em;
+  color: #333;
 }
 #url-input {
   width: calc(100% - 7em);
@@ -77,7 +99,7 @@ body {
 }
 #form-container {
   margin: 20px auto;
-  width: 60vw;
+  width: 70vw;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -139,16 +161,20 @@ body {
   </div>
   <div id="form-container">
     <input id="url-input" type="text" class="form-control" autocomplete="on">
-    <div id="url-button" class="btn btn-primary" onclick="playOrAddList();">Play</div>
+    <div id="play-button" class="btn btn-primary" onclick="playOrAddList();">&#9654;</div>
+    <div id="repeat-button" class="btn btn-primary" onclick="switchRepeatMode();">&#10227;</div>
   </div>
   <div id="sub-container">
     <div id="message-container">
-      <div id="message">
+      <div id="message"></div>
+      <div>
+        <div id="hide-button" class="btn btn-primary" onclick="hideOrShowController();">&#9206;</div>
       </div>
     </div>
   </div>
   <script>
   var player;
+  var repeatMode = false;
   var youTubePlayerAPIReady = false;
   var tag = document.createElement('script');
   tag.src = "https://www.youtube.com/iframe_api";
@@ -169,6 +195,7 @@ body {
   };
   var playlistId = "";
   var videoIdList = [];
+  var currentVideoId = "";
   var switchVideoId1 = "";
   var switchVideoId2 = "";
   var switchVideoId = function(arr, val1, val2) {
@@ -221,6 +248,11 @@ body {
     if (videoIdList.length > 0) {
       nextVideoId = videoIdList[0];
       videoIdList.shift();
+      if (repeatMode) {
+        videoIdList.push(currentVideoId);
+      }
+    } else if (repeatMode) {
+      nextVideoId = currentVideoId;
     }
     return nextVideoId;
   };
@@ -299,7 +331,30 @@ body {
       }
     }
   };
+  var hideOrShowController = function() {
+    var hideButton = document.getElementById("hide-button");
+    var formContainer = document.getElementById("form-container");
+    if (formContainer.style.display.toString() !== 'none') {
+      hideButton.style.transform = 'rotate(180deg)';
+      formContainer.style.display = 'none';
+    } else {
+      hideButton.style.transform = 'rotate(0deg)';
+      formContainer.style.display = 'flex';
+    }
+  };
+  var switchRepeatMode = function() {
+    var repeatButton = document.getElementById("repeat-button");
+    if (repeatMode) {
+      repeatButton.style.color = '#333';
+      repeatButton.style.backgroundColor = '#DDD';
+    } else {
+      repeatButton.style.color = '#DDD';
+      repeatButton.style.backgroundColor = '#777';
+    }
+    repeatMode = !repeatMode;
+  };
   var initPlayer = function(videoId) {
+    currentVideoId = videoId;
     player = new YT.Player('ytplayer', {
       height: '360',
       width: '640',
